@@ -2,14 +2,14 @@
   {
     "id": 1,
     "pids": [2],
-    "name": "Ah Kung",
+    "name": "Yap Yong Jin",
     "img": "./images/great-grandfather.png",
     "gender": "male"
   },
   {
     "id": 2,
     "pids": [1],
-    "name": "Ah Ma",
+    "name": "Chan",
     "img": "./images/great-grandmother.png",
     "gender": "female"
   },
