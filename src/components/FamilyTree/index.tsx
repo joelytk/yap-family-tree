@@ -1,10 +1,14 @@
-import { ZoomControls } from '@/components/ZoomControls';
-import { usePanZoom } from '@/hooks/usePanZoom';
-import type { FamilyMember } from '@/types/family';
-import { computeLayout, NODE_W, PARTNER_GAP } from '@/utils/treeLayout';
 import { useEffect, useMemo } from 'react';
+
+import { ZoomControls } from '@/components/ZoomControls';
 import { FamilyNode } from './FamilyNode';
 import { calcSvgDimensions, PartnerLine, TreeEdges } from './TreeEdges';
+
+import { usePanZoom } from '@/hooks/usePanZoom';
+
+import type { FamilyMember } from '@/types/family';
+
+import { computeLayout, NODE_W, PARTNER_GAP } from '@/utils/treeLayout';
 
 interface Props {
 	data: FamilyMember[];

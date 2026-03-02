@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { PointerEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 export interface PanZoomState {
 	x: number;
@@ -45,14 +45,14 @@ export function usePanZoom(initialScale = 1) {
 	}, []);
 
 	// ── Pointer pan ──
-	const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+	const onPointerDown = useCallback((e: PointerEvent<HTMLDivElement>) => {
 		if (e.button !== 0) return;
 		isPanning.current = true;
 		lastMouse.current = { x: e.clientX, y: e.clientY };
 		e.currentTarget.setPointerCapture(e.pointerId);
 	}, []);
 
-	const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+	const onPointerMove = useCallback((e: PointerEvent<HTMLDivElement>) => {
 		if (!isPanning.current) return;
 		const dx = e.clientX - lastMouse.current.x;
 		const dy = e.clientY - lastMouse.current.y;

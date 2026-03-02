@@ -1,6 +1,8 @@
+import type { SyntheticEvent } from 'react';
+
 import type { FamilyMember } from '@/types/family';
+
 import { NODE_H, NODE_W } from '@/utils/treeLayout';
-import React from 'react';
 
 interface Props {
 	member: FamilyMember;
@@ -37,11 +39,11 @@ export function FamilyNode({ member, x, y }: Props) {
 				].join(' ')}
 			>
 				<img
-					src={member.img}
+					src={`${import.meta.env.BASE_URL}${member.img.slice(1)}`}
 					alt={member.name}
 					className="w-full h-full object-cover object-top"
 					loading="lazy"
-					onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+					onError={(e: SyntheticEvent<HTMLImageElement>) => {
 						(e.currentTarget as HTMLImageElement).src =
 							`https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random&size=120`;
 					}}

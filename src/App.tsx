@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react';
+
 import { FamilyTree } from '@/components/FamilyTree';
 import { ThemeToggle } from '@/components/ThemeToggle';
+
 import { useTheme } from '@/hooks/useTheme';
+
 import type { FamilyMember } from '@/types/family';
-import { useEffect, useState } from 'react';
 
 export default function App() {
 	const { theme, toggle } = useTheme();
@@ -10,10 +13,10 @@ export default function App() {
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		fetch('/assets/data.json')
-			.then(r => {
-				if (!r.ok) throw new Error(`HTTP ${r.status}`);
-				return r.json() as Promise<FamilyMember[]>;
+		fetch(`${import.meta.env.BASE_URL}assets/data.json`)
+			.then(res => {
+				if (!res.ok) throw new Error(`HTTP ${res.status}`);
+				return res.json();
 			})
 			.then(setData)
 			.catch((e: unknown) => setError(e instanceof Error ? e.message : 'Failed to load data'));
