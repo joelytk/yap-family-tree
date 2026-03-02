@@ -1,0 +1,23 @@
+# ── Build outputs ────────────────────────────────────────────────────────────
+dist/
+dist-ssr/
+build/
+
+# ── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+
+# ── Static assets (binary / auto-generated) ──────────────────────────────────
+public/assets/images/
+public/assets/data.json
+
+# ── Lock files ───────────────────────────────────────────────────────────────
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ── Generated TS artefacts ───────────────────────────────────────────────────
+*.tsbuildinfo
+
+# ── Coverage ─────────────────────────────────────────────────────────────────
+coverage/

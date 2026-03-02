@@ -1,0 +1,36 @@
+# ── Version control ───────────────────────────────────────────────────────
+.git/
+.gitignore
+
+# ── Dependencies (re-installed inside the image) ───────────────────────────
+node_modules/
+
+# ── Dev / local config ─────────────────────────────────────────────────────
+.env
+.env.*
+*.local
+
+# ── Dev tooling (not needed in production image) ───────────────────────────
+.husky/
+.prettierrc
+.prettierignore
+.eslintrc*
+.editorconfig
+tailwind.config.js
+postcss.config.js
+tsconfig*.json
+vite.config.ts
+
+# ── Test / coverage ─────────────────────────────────────────────────────────
+coverage/
+
+# ── Logs ────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS artefacts ────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Docs ────────────────────────────────────────────────────────────────────
+*.md
