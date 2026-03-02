@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	base: '/yap-family-tree/',
 	plugins: [react()],
 	resolve: {
 		alias: {
