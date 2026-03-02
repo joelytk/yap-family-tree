@@ -1,5 +1,3 @@
-import type { SyntheticEvent } from 'react';
-
 import type { FamilyMember } from '@/types/family';
 
 import { NODE_H, NODE_W } from '@/utils/treeLayout';
@@ -38,16 +36,7 @@ export function FamilyNode({ member, x, y }: Props) {
 					isMale ? 'bg-sky-200/50 dark:bg-sky-900/50' : 'bg-pink-200/50 dark:bg-pink-900/50'
 				].join(' ')}
 			>
-				<img
-					src={`${import.meta.env.BASE_URL}${member.img.slice(1)}`}
-					alt={member.name}
-					className="w-full h-full object-cover object-top"
-					loading="lazy"
-					onError={(e: SyntheticEvent<HTMLImageElement>) => {
-						(e.currentTarget as HTMLImageElement).src =
-							`https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=random&size=120`;
-					}}
-				/>
+				<img src={member.img} alt={member.name} className="w-full h-full object-cover object-top" loading="lazy" />
 			</div>
 
 			{/* Name badge */}
