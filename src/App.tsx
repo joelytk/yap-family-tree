@@ -32,7 +32,7 @@ export default function App() {
 
 	return (
 		<div
-			className={`relative w-screen h-screen flex flex-col overflow-hidden ${isDark ? 'bg-slate-950' : 'bg-slate-100'} transition-colors duration-300`}
+			className={`relative w-screen h-dvh flex flex-col overflow-hidden ${isDark ? 'bg-slate-950' : 'bg-slate-100'} transition-colors duration-300`}
 		>
 			{/* Header */}
 			<header
