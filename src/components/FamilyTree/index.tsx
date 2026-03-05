@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
+import { Minimap } from '@/components/Minimap';
 import { ZoomControls } from '@/components/ZoomControls';
 import { FamilyNode } from './FamilyNode';
 import { calcSvgDimensions, PartnerLine, TreeEdges } from './TreeEdges';
@@ -8,28 +9,52 @@ import { usePanZoom } from '@/hooks/usePanZoom';
 
 import type { FamilyMember } from '@/types/family';
 
-import { computeLayout, NODE_W, PARTNER_GAP } from '@/utils/treeLayout';
+import { computeLayout, LEVEL_H, NODE_H, NODE_W, PARTNER_GAP } from '@/utils/treeLayout';
 
-interface Props {
-	data: FamilyMember[];
-	isDark: boolean;
-}
+/** Number of full generation levels visible in the initial/fit view. */
+const INITIAL_VISIBLE_LEVELS = 4;
 
-export function FamilyTree({ data, isDark }: Props) {
+/**
+ * Viewport-y where the first generation (great-grandparents) appears.
+ * Accounts for the title bar height (~48 px) + 32 px gap.
+ */
+const NODE_TOP_PX = 32;
+
+export const FamilyTree = ({ data, isDark }: { data: FamilyMember[]; isDark: boolean }) => {
 	const { positions, edges, totalWidth, totalHeight } = useMemo(() => computeLayout(data), [data]);
 
-	const { containerRef, transform, onPointerDown, onPointerMove, onPointerUp, zoomIn, zoomOut, fitToScreen } =
+	const { containerRef, transform, onPointerDown, onPointerMove, onPointerUp, zoomIn, zoomOut, focusTop, panTo } =
 		usePanZoom(0.6);
-
-	// Auto-fit on first load
-	useEffect(() => {
-		const { width, height } = calcSvgDimensions(totalWidth, totalHeight);
-		fitToScreen(width, height);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [totalWidth, totalHeight]);
 
 	const { width: svgW, height: svgH } = calcSvgDimensions(totalWidth, totalHeight);
 	const PADDING = 60;
+	const canvasW = svgW + PADDING * 2;
+	const canvasH = svgH + PADDING * 2;
+
+	/** Height of the generational content (no canvas padding). */
+	const visibleContentH = (INITIAL_VISIBLE_LEVELS - 1) * LEVEL_H + NODE_H + 40;
+
+	const doFocusTop = () => focusTop(canvasW, visibleContentH, PADDING, NODE_TOP_PX);
+
+	// Track viewport dimensions for the minimap
+	const [viewport, setViewport] = useState({ w: window.innerWidth, h: window.innerHeight });
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+		const obs = new ResizeObserver(entries => {
+			const { width, height } = entries[0].contentRect;
+			setViewport({ w: width, h: height });
+		});
+		obs.observe(el);
+		setViewport({ w: el.clientWidth, h: el.clientHeight });
+		return () => obs.disconnect();
+	}, [containerRef]);
+
+	// Initial focus on load
+	useEffect(() => {
+		doFocusTop();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [canvasW, canvasH]);
 
 	// Build partner connector pairs: two nodes at same y separated by PARTNER_GAP
 	const partnerEdges = useMemo(() => {
@@ -53,9 +78,8 @@ export function FamilyTree({ data, isDark }: Props) {
 
 				const spousePos = positionalMap.get(pid);
 				if (!spousePos) continue;
-				if (Math.abs(myPos.y - spousePos.y) > 1) continue; // only same row
+				if (Math.abs(myPos.y - spousePos.y) > 1) continue;
 
-				// Validate they are actually adjacent (separated by PARTNER_GAP)
 				const gap = Math.abs(myPos.x - spousePos.x) - NODE_W;
 				if (gap < 0 || gap > PARTNER_GAP + 4) continue;
 
@@ -69,27 +93,29 @@ export function FamilyTree({ data, isDark }: Props) {
 	}, [data, positions]);
 
 	return (
-		<div className="relative w-full h-full overflow-hidden">
-			{/* Pan/zoom container */}
+		<main className="relative flex-1 w-full h-full overflow-hidden">
+			{/* Pan/zoom container – touch-action:none prevents iOS native scroll */}
 			<div
 				ref={containerRef}
 				className="w-full h-full cursor-grab active:cursor-grabbing"
+				style={{ touchAction: 'none' }}
 				onPointerDown={onPointerDown}
 				onPointerMove={onPointerMove}
 				onPointerUp={onPointerUp}
+				onPointerCancel={onPointerUp}
 			>
 				{/* Transformed canvas */}
 				<div
 					style={{
 						transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
 						transformOrigin: '0 0',
-						width: svgW + PADDING * 2,
-						height: svgH + PADDING * 2,
+						width: canvasW,
+						height: canvasH,
 						position: 'relative'
 					}}
 				>
 					{/* SVG edge layer */}
-					<svg width={svgW + PADDING * 2} height={svgH + PADDING * 2} className="absolute inset-0 pointer-events-none">
+					<svg width={canvasW} height={canvasH} className="absolute inset-0 pointer-events-none">
 						<g transform={`translate(${PADDING}, ${PADDING})`}>
 							<TreeEdges edges={edges} positions={positions} isDark={isDark} />
 							{partnerEdges.map((pe: { x1: number; x2: number; y: number }, i: number) => (
@@ -109,8 +135,22 @@ export function FamilyTree({ data, isDark }: Props) {
 				</div>
 			</div>
 
+			{/* Minimap – bottom left */}
+			<Minimap
+				canvasW={canvasW}
+				canvasH={canvasH}
+				padding={PADDING}
+				positions={positions}
+				members={data}
+				transform={transform}
+				viewportW={viewport.w}
+				viewportH={viewport.h}
+				isDark={isDark}
+				onPanTo={panTo}
+			/>
+
 			{/* Zoom controls – bottom right */}
-			<ZoomControls onZoomIn={zoomIn} onZoomOut={zoomOut} onFit={() => fitToScreen(svgW, svgH)} />
-		</div>
+			<ZoomControls onZoomIn={zoomIn} onZoomOut={zoomOut} onFit={doFocusTop} />
+		</main>
 	);
-}
+};

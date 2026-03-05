@@ -2,16 +2,17 @@ import type { Edge } from '@/types/family';
 
 import { LEVEL_H, NODE_H, NODE_W } from '@/utils/treeLayout';
 
-interface Props {
+const MID_VERT_RATIO = 0.5; // how far down between parent bottom and child top the horizontal bus sits
+
+export function TreeEdges({
+	edges,
+	isDark
+}: {
 	edges: Edge[];
 	/** grouped by parentId so we can draw the horizontal bus line */
 	positions: Map<number, { id: number; x: number; y: number }>;
 	isDark: boolean;
-}
-
-const MID_VERT_RATIO = 0.5; // how far down between parent bottom and child top the horizontal bus sits
-
-export function TreeEdges({ edges, isDark }: Props) {
+}) {
 	const strokeColor = isDark ? 'rgba(148,163,184,0.45)' : 'rgba(100,116,139,0.55)';
 	const strokeW = 1.5;
 

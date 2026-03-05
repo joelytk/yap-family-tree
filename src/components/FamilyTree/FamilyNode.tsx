@@ -2,13 +2,7 @@ import type { FamilyMember } from '@/types/family';
 
 import { NODE_H, NODE_W } from '@/utils/treeLayout';
 
-interface Props {
-	member: FamilyMember;
-	x: number;
-	y: number;
-}
-
-export function FamilyNode({ member, x, y }: Props) {
+export function FamilyNode({ member, x, y }: { member: FamilyMember; x: number; y: number }) {
 	const isMale = member.gender === 'm';
 
 	return (
@@ -36,7 +30,12 @@ export function FamilyNode({ member, x, y }: Props) {
 					isMale ? 'bg-sky-200/50 dark:bg-sky-900/50' : 'bg-pink-200/50 dark:bg-pink-900/50'
 				].join(' ')}
 			>
-				<img src={member.img} alt={member.name} className="w-full h-full object-cover object-top" loading="lazy" />
+				<img
+					src={member.img}
+					alt={member.name}
+					className="w-full h-full object-cover object-top pointer-events-none"
+					loading="lazy"
+				/>
 			</div>
 
 			{/* Name badge */}
