@@ -9,8 +9,8 @@ import { useTheme } from '@/hooks/useTheme';
 
 import type { FamilyMember } from '@/types/family';
 
-const VERSION = '2.0.0';
-const LAST_UPDATED = 'Mar 2026';
+const VERSION = '2.0.1';
+const LAST_UPDATED = '8 June 2026';
 
 export default function App() {
 	const { theme, toggle } = useTheme();

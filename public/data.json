@@ -520,22 +520,30 @@
 	},
 	{
 		"id": 67,
+		"pids": [68],
 		"fid": 34,
 		"mid": 35,
-		"name": "Calvin",
+		"name": "Cal-Vin",
 		"img": "images/calvin.png",
 		"gender": "m"
 	},
 	{
 		"id": 68,
-		"fid": 34,
-		"mid": 35,
-		"name": "Cally",
-		"img": "images/cally.png",
+		"pids": [67],
+		"name": "Vinn Kee",
+		"img": "images/vinn-kee.png",
 		"gender": "f"
 	},
 	{
 		"id": 69,
+		"fid": 34,
+		"mid": 35,
+		"name": "Cal-ly",
+		"img": "images/cally.png",
+		"gender": "f"
+	},
+	{
+		"id": 70,
 		"fid": 36,
 		"mid": 37,
 		"name": "Zen",
@@ -543,7 +551,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 70,
+		"id": 71,
 		"fid": 38,
 		"mid": 39,
 		"name": "Tom",
@@ -551,7 +559,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 71,
+		"id": 72,
 		"fid": 38,
 		"mid": 39,
 		"name": "Oliver",
@@ -559,7 +567,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 72,
+		"id": 73,
 		"fid": 38,
 		"mid": 39,
 		"name": "Harry",
@@ -567,7 +575,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 73,
+		"id": 74,
 		"fid": 40,
 		"mid": 41,
 		"name": "Will",
@@ -575,7 +583,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 74,
+		"id": 75,
 		"fid": 40,
 		"mid": 41,
 		"name": "Issie",
@@ -583,7 +591,7 @@
 		"gender": "f"
 	},
 	{
-		"id": 75,
+		"id": 76,
 		"fid": 42,
 		"mid": 43,
 		"name": "Li Ling",
@@ -591,7 +599,7 @@
 		"gender": "f"
 	},
 	{
-		"id": 76,
+		"id": 77,
 		"fid": 42,
 		"mid": 43,
 		"name": "Lu Kang",
@@ -599,7 +607,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 77,
+		"id": 78,
 		"fid": 42,
 		"mid": 43,
 		"name": "Luo Gan",
@@ -607,7 +615,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 78,
+		"id": 79,
 		"fid": 44,
 		"mid": 45,
 		"name": "Poh Xuan",
@@ -615,7 +623,7 @@
 		"gender": "m"
 	},
 	{
-		"id": 79,
+		"id": 80,
 		"fid": 46,
 		"mid": 47,
 		"name": "Kar Tien",
